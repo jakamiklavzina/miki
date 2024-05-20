@@ -48,7 +48,7 @@
         overflow: hidden;
     }
 
-    .wheel .numbers {
+    .numbers {
         position: absolute;
         top: 50%;
         left: 50%;
@@ -116,6 +116,7 @@
                 <div class="number" style="transform: rotate(360deg);">6</div>
                 <div class="number" style="transform: rotate(396deg);">27</div>
                 <div class="number" style="transform: rotate(432deg);">13</div>
+                <!-- Add more numbers as needed -->
             </div>
             <div class="marker"></div>
         </div>
@@ -125,4 +126,13 @@
 <script>
     function spinWheel() {
         var randomDegree = Math.floor(Math.random() * 360) + 1;
-        document.getElementById('wheel').style.transform = 'rotate(' + randomDegree
+        document.getElementById('wheel').style.transform = 'rotate(' + randomDegree + 'deg)';
+    }
+
+    function playRoulette() {
+        // Add your roulette logic here
+    }
+</script>
+
+</body>
+</html>
