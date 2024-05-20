@@ -4,6 +4,7 @@ import java.util.Scanner;
 public class RouletteGame {
     private static final int BLACK = 0;
     private static final int RED = 1;
+    private static final String[] WHEEL_NUMBERS = {"0", "28", "9", "26", "30", "11", "7", "20", "32", "17", "5", "22", "34", "15", "3", "24", "36", "13", "1", "00", "27", "10", "25", "29", "12", "8", "19", "31", "18", "6", "21", "33", "16", "4", "23", "35", "14", "2"};
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -31,16 +32,19 @@ public class RouletteGame {
             System.out.print("Enter your bet amount: ");
             int betAmount = scanner.nextInt();
 
-            int spinResult = random.nextInt(37); // Simulate spinning the wheel
-            int colorResult = (spinResult == 0) ? -1 : (spinResult % 2 == 0) ? BLACK : RED;
+            // Spin the wheel
+            int spinResult = random.nextInt(38);
+            String spinNumber = WHEEL_NUMBERS[spinResult];
+
+            int colorResult = (spinResult == 0 || spinResult == 19) ? -1 : (spinResult <= 10 || (spinResult >= 20 && spinResult <= 28) || (spinResult >= 30 && spinResult <= 36)) ? BLACK : RED;
 
             switch (choice) {
                 case 1:
                     System.out.print("Enter your bet number (0-36): ");
                     int betNumber = scanner.nextInt();
-                    if (betNumber == spinResult) {
+                    if (Integer.parseInt(spinNumber) == betNumber) {
                         money += betAmount * 35;
-                        System.out.println("Congratulations! You won by number!");
+                        System.out.println("Congratulations! You won by number " + spinNumber + "!");
                     } else {
                         System.out.println("You lost.");
                         money -= betAmount;
@@ -51,7 +55,7 @@ public class RouletteGame {
                     int betColor = scanner.nextInt();
                     if (betColor == colorResult) {
                         money += betAmount;
-                        System.out.println("Congratulations! You won by color!");
+                        System.out.println("Congratulations! You won by color " + (colorResult == BLACK ? "Black" : "Red") + "!");
                     } else {
                         System.out.println("You lost.");
                         money -= betAmount;
@@ -60,9 +64,9 @@ public class RouletteGame {
                 case 3:
                     System.out.print("Enter your bet (0 for Even, 1 for Odd): ");
                     int betOddEven = scanner.nextInt();
-                    if (betOddEven == (spinResult % 2)) {
+                    if (betOddEven == (spinResult == 0 || spinResult == 19) ? 0 : (spinResult % 2)) {
                         money += betAmount;
-                        System.out.println("Congratulations! You won by odd/even!");
+                        System.out.println("Congratulations! You won by " + (betOddEven == 0 ? "Even" : "Odd") + " number!");
                     } else {
                         System.out.println("You lost.");
                         money -= betAmount;
@@ -71,10 +75,9 @@ public class RouletteGame {
                 case 4:
                     System.out.print("Enter your bet (0 for Low 1-18, 1 for High 19-36): ");
                     int betHighLow = scanner.nextInt();
-                    if ((spinResult != 0) && (((spinResult >= 1 && spinResult <= 18) && betHighLow == 0) ||
-                            ((spinResult >= 19 && spinResult <= 36) && betHighLow == 1))) {
+                    if ((spinResult == 0 || spinResult == 19) ? false : (spinResult >= 1 && spinResult <= 18) == (betHighLow == 0)) {
                         money += betAmount;
-                        System.out.println("Congratulations! You won by high/low!");
+                        System.out.println("Congratulations! You won by " + (betHighLow == 0 ? "Low" : "High") + " number!");
                     } else {
                         System.out.println("You lost.");
                         money -= betAmount;
@@ -84,6 +87,7 @@ public class RouletteGame {
                     System.out.println("Invalid choice. Please try again.");
             }
 
+            System.out.println("The wheel landed on: " + spinNumber);
             System.out.println("Your current balance is: $" + money);
         }
 
