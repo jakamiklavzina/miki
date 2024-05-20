@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spinning Wheel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 300px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        #wheel {
+            width: 200px;
+            height: 200px;
+            background-color: #f0f0f0;
+            border-radius: 50%;
+            border: 5px solid #333;
+            position: relative;
+            animation: spin 5s infinite linear;
+        }
+
+        .marker {
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 20px solid red;
+            position: absolute;
+            top: -20px;
+            left: 95px;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div id="wheel">
+            <div class="marker"></div>
+        </div>
+        <button onclick="spinWheel()">Spin</button>
+    </div>
+
+    <script>
+        function spinWheel() {
+            // Generate a random degree for rotation
+            var randomDegree = Math.floor(Math.random() * 360) + 1;
+            // Apply rotation to the wheel
+            document.getElementById('wheel').style.transform = 'rotate(' + randomDegree + 'deg)';
+        }
+    </script>
+
+</body>
+</html>
