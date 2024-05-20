@@ -32,8 +32,8 @@
     
     .wheel-container {
         position: relative;
-        width: 200px;
-        height: 200px;
+        width: 300px;
+        height: 300px;
         margin: 20px auto;
     }
 
@@ -45,6 +45,23 @@
         position: absolute;
         top: 0;
         left: 0;
+        overflow: hidden;
+    }
+
+    .wheel .numbers {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+    }
+
+    .number {
+        position: absolute;
+        font-size: 12px;
+        font-weight: bold;
+        color: #333;
+        transform-origin: center;
     }
 
     .marker {
@@ -54,8 +71,10 @@
         border-right: 10px solid transparent;
         border-bottom: 20px solid red;
         position: absolute;
-        top: -20px;
-        left: calc(50% - 10px);
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        transition: top 2s ease-out;
     }
 
     @keyframes spin {
@@ -83,6 +102,21 @@
     <br><br>
     <div class="wheel-container">
         <div class="wheel" id="wheel">
+            <div class="numbers">
+                <div class="number" style="transform: rotate(0deg);">0</div>
+                <div class="number" style="transform: rotate(36deg);">32</div>
+                <div class="number" style="transform: rotate(72deg);">15</div>
+                <div class="number" style="transform: rotate(108deg);">19</div>
+                <div class="number" style="transform: rotate(144deg);">4</div>
+                <div class="number" style="transform: rotate(180deg);">21</div>
+                <div class="number" style="transform: rotate(216deg);">2</div>
+                <div class="number" style="transform: rotate(252deg);">25</div>
+                <div class="number" style="transform: rotate(288deg);">17</div>
+                <div class="number" style="transform: rotate(324deg);">34</div>
+                <div class="number" style="transform: rotate(360deg);">6</div>
+                <div class="number" style="transform: rotate(396deg);">27</div>
+                <div class="number" style="transform: rotate(432deg);">13</div>
+            </div>
             <div class="marker"></div>
         </div>
     </div>
@@ -91,60 +125,4 @@
 <script>
     function spinWheel() {
         var randomDegree = Math.floor(Math.random() * 360) + 1;
-        document.getElementById('wheel').style.transform = 'rotate(' + randomDegree + 'deg)';
-    }
-
-    function playRoulette() {
-        var money = 1000;
-        var betAmount = parseInt(document.getElementById('betAmount').value);
-        if (isNaN(betAmount) || betAmount <= 0) {
-            alert("Invalid bet amount!");
-            return;
-        }
-
-        var spinResult = Math.floor(Math.random() * 37); // Roulette wheel numbers from 0 to 36
-        var colorResult = (spinResult === 0) ? -1 : (spinResult % 2 === 0) ? 0 : 1;
-
-        var message = "The wheel spun and the result is: " + spinResult + "\n";
-        if (colorResult === 0) {
-            message += "The color is: Black\n";
-        } else if (colorResult === 1) {
-            message += "The color is: Red\n";
-        }
-
-        var win = false;
-        var betType = parseInt(prompt("Choose your bet type (1-4):\n1. Specific number\n2. Red or Black\n3. Odd or Even\n4. High or Low"));
-        switch (betType) {
-            case 1:
-                var betNumber = parseInt(prompt("Enter your bet number (0-36):"));
-                if (isNaN(betNumber) || betNumber < 0 || betNumber > 36) {
-                    alert("Invalid bet number!");
-                    return;
-                }
-                if (betNumber === spinResult) {
-                    win = true;
-                    money += betAmount * 35;
-                }
-                break;
-            case 2:
-                var betColor = parseInt(prompt("Enter your bet color (0 for Black, 1 for Red):"));
-                if (isNaN(betColor) || (betColor !== 0 && betColor !== 1)) {
-                    alert("Invalid bet color!");
-                    return;
-                }
-                if (betColor === colorResult) {
-                    win = true;
-                    money += betAmount;
-                }
-                break;
-            case 3:
-                var betOddEven = parseInt(prompt("Enter your bet (0 for Even, 1 for Odd):"));
-                if (isNaN(betOddEven) || (betOddEven !== 0 && betOddEven !== 1)) {
-                    alert("Invalid bet!");
-                    return;
-                }
-                if ((spinResult !== 0) && ((spinResult % 2) === betOddEven)) {
-                    win = true;
-                    money += betAmount;
-                }
-                break;
+        document.getElementById('wheel').style.transform = 'rotate(' + randomDegree
